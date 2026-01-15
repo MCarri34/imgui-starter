@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\bigmi\CMPM123\Assignments\imgui-starter\out\build\Visual Studio Build Tools 2022 Release - amd64\CMakeFiles\857610f25156f3b1630cb6fe2ef8c0eb\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C86F1ED0-D910-305C-82D5-FB92D0288F6B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

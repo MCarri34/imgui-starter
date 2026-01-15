@@ -1,0 +1,10 @@
+^C:\USERS\BIGMI\CMPM123\ASSIGNMENTS\IMGUI-STARTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/bigmi/CMPM123/Assignments/imgui-starter "-BC:/Users/bigmi/CMPM123/Assignments/imgui-starter/out/build/Visual Studio Build Tools 2022 Release - amd64" --check-stamp-file "C:/Users/bigmi/CMPM123/Assignments/imgui-starter/out/build/Visual Studio Build Tools 2022 Release - amd64/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
