@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Logger.h"
 #include "imgui/imgui.h"
 
 namespace ClassGame {
@@ -12,10 +13,9 @@ namespace ClassGame {
         //
         void GameStartUp() 
         {
-            // Initialize logging system
-//            Logger& logger = Logger::GetInstance();
-//            logger.LogInfo("Game started successfully");
-//            logger.LogGameEvent("Application initialized");
+            // Initialize Logger
+            Logger::GetInstance().Initialize();
+            Logger::GetInstance().Log(LogLevel::Info, "Game Started Successfully.");
         }
 
         //
@@ -27,6 +27,14 @@ namespace ClassGame {
             ImGui::DockSpaceOverViewport();
             ImGui::ShowDemoWindow();
 
+            // safe ImGui log init
+            static bool imguiLogInitialized = false;
+            if (!imguiLogInitialized)
+            {
+                ImGui::LogToBuffer();
+                imguiLogInitialized = true;
+            }
+
             ImGui::Begin("ImGui Log Demo");
             ImGui::LogButtons();
 
@@ -37,6 +45,40 @@ namespace ClassGame {
                 ImGui::LogFinish();
             }
             ImGui::End();
+
+            ImGui::Begin("Game Control");
+
+            if (ImGui::Button("Log Game Event"))
+                Logger::GetInstance().Log(LogLevel::Info, "Player made a move.");
+
+            ImGui::SameLine();
+            if (ImGui::Button("Log Warning"))
+                Logger::GetInstance().Log(LogLevel::Warning, "Invalid move attempted");
+
+            ImGui::SameLine();
+            if (ImGui::Button("Log Error"))
+                Logger::GetInstance().Log(LogLevel::Error, "Game state corrupted");
+
+            ImGui::End();
+
+            //
+            // Game Log window
+            //
+            ImGui::Begin("Game Log");
+
+            if (ImGui::Button("Clear"))
+                Logger::GetInstance().Clear();
+
+            ImGui::Separator();
+
+            ImGui::BeginChild("LogScroll", ImVec2(0, 0), true);
+            ImGui::TextUnformatted(
+                Logger::GetInstance().GetBuffer().c_str()
+            );
+            ImGui::EndChild();
+
+            ImGui::End();
+
         }
 
         //
@@ -45,5 +87,6 @@ namespace ClassGame {
         //
         void EndOfTurn() 
         {
+            Logger::GetInstance().Log(LogLevel::Info, "End of turn reached");
         }
 }
