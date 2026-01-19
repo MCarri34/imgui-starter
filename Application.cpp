@@ -14,8 +14,7 @@ namespace ClassGame {
         void GameStartUp() 
         {
             // Initialize Logger
-            Logger::GetInstance().Initialize();
-            Logger::GetInstance().Log(LogLevel::Info, "Game Started Successfully.");
+            Logger::GetInstance().Initialize("GameLog.txt");
         }
 
         //
@@ -26,14 +25,6 @@ namespace ClassGame {
         {
             ImGui::DockSpaceOverViewport();
             ImGui::ShowDemoWindow();
-
-            // safe ImGui log init
-            static bool imguiLogInitialized = false;
-            if (!imguiLogInitialized)
-            {
-                ImGui::LogToBuffer();
-                imguiLogInitialized = true;
-            }
 
             ImGui::Begin("ImGui Log Demo");
             ImGui::LogButtons();
@@ -67,16 +58,38 @@ namespace ClassGame {
             ImGui::Begin("Game Log");
 
             if (ImGui::Button("Clear"))
+            {
                 Logger::GetInstance().Clear();
+            }
+            ImGui::SameLine();
+
+            static int levelIndex = 0;
+            const char* levels[] = { "Info", "Warning", "Error" };
+
+            LogLevel currentLevel = Logger::GetInstance().GetConsoleLevel();
+            levelIndex = (currentLevel == LogLevel::Info) ? 0 :
+                        (currentLevel == LogLevel::Warning) ? 1 : 2;
+            if (ImGui::Combo("Log Level", &levelIndex, levels, IM_ARRAYSIZE(levels)))
+            {
+                Logger::GetInstance().SetConsoleLevel(
+                    levelIndex == 0 ? LogLevel::Info :
+                    levelIndex == 1 ? LogLevel::Warning :
+                    LogLevel::Error);
+            }
 
             ImGui::Separator();
-
+                
             ImGui::BeginChild("LogScroll", ImVec2(0, 0), true);
-            ImGui::TextUnformatted(
-                Logger::GetInstance().GetBuffer().c_str()
-            );
-            ImGui::EndChild();
 
+            LogLevel minLevel = Logger::GetInstance().GetConsoleLevel();
+            for (const auto& entry : Logger::GetInstance().GetEntries())
+                {
+                    if (entry.level < minLevel)
+                        continue;
+
+                    ImGui::TextUnformatted(entry.text.c_str());
+                }
+            ImGui::EndChild();
             ImGui::End();
 
         }

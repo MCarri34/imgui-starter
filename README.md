@@ -8,3 +8,6 @@ It should be able to log to a Dear IMGUI debug console
 It should also log its output to a file.
 
 For the submission, make a branch of this repo and submit a new GitHub URL
+
+## Approach in Writing Code
+Before writing any code, I asked the instructor whether the original Application.cpp were meant to stay mostly unchanged and in return, I got a full explanation on how we were supposed to set up the code. I built a simple singleton logging system that writes to both a Dear ImGui game log window and a text file so it can be reused throughout the quarter. This project was made on Windows.

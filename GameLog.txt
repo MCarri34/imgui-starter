@@ -1,1 +1,4 @@
 [INFO] Game Started Successfully.
+[ERROR] Game state corrupted
+[WARN] Invalid move attempted
+[INFO] Player made a move.
