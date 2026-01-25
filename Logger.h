@@ -29,7 +29,6 @@ public:
     {
         logFilename = filename ? filename : "GameLog.txt";
         initialized = true;
-        // Do NOT open the file here. We'll open lazily on first Log().
     }
 
     void Log(LogLevel level, const std::string& message)
@@ -41,10 +40,8 @@ public:
 
         std::string full = std::string(prefix) + message;
 
-        // Always store for the on-screen console
         entries.push_back({ level, full });
 
-        // Lazy-open file the first time we log (safe in early startup)
         if (!file.is_open())
         {
             if (!initialized)
